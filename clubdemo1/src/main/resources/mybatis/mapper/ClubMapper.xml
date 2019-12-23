@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ClubMapper">
+ 
+	<resultMap type="Club" id="clubpojo">
+		<association property="clubType" column="club_type" select="selectNameByType"></association>
+	</resultMap>
+	 <select id="selectNameByType" resultType="ClubType">
+		 SELECT * FROM tb_club_type where club_type=#{club_type}
+ 	</select>
+	
+	<!-- Collection<Club> getAllClub(); -->
+	<select id="getAllClub" resultMap="clubpojo">
+        SELECT * FROM tb_club
+    </select>
+
+	<!-- Club getClubByName(String name); -->
+	<select id="getClubByName" parameterType="string" resultMap="clubpojo">
+		SELECT * FROM tb_club where club_name=#{name}
+	</select>
+
+	<insert id="insertClub">
+        INSERT INTO tb_club(club_name,club_header,club_type,active_number,members_number,club_comments) 
+        VALUES (#{clubName},#{clubHeader},#{clubType.clubType},#{activeNumber},#{membersNumber},#{clubComments})
+    </insert>
+    
+    <!-- void updateClub(Club club); -->
+    <update id="updateClub">
+    	UPDATE tb_club 
+    	<set>
+	    	<if test="clubHeader!=null">club_header=#{clubHeader},</if>
+	    	<if test="clubType.clubType!=null">club_type=#{clubType.clubType},</if>
+	    	<if test="activeNumber!=null">active_number=#{activeNumber},</if>
+	    	<if test="membersNumber!=null">members_number=#{membersNumber},</if>
+	    	<if test="clubComments!=null">club_comments=#{clubComments},</if>
+    	</set>
+    	where club_name=#{clubName}
+    </update>
+</mapper>

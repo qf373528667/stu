@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title></title>
+<style type="text/css">
+</style>
+</head>
+
+<body>
+<fieldset style="width: 350px">
+<div style="background-color: #00d0ff" th:text="${club!=null}?'修改':'新增'">新增</div>
+	<form th:action="@{/club}" method="post">
+		<!--发送put请求修改员工数据-->
+		<!--
+						1、SpringMVC中配置HiddenHttpMethodFilter;（SpringBoot自动配置好的）
+						2、页面创建一个post表单
+						3、创建一个input项，name="_method";值就是我们指定的请求方式
+						-->
+		<input type="hidden" name="_method" value="put" th:if="${club!=null}" />
+		<table>
+			<tr>
+				<td style="width: 100px;" align="right">俱乐部名称：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<td><input type="text" name="clubName" th:value="${club!=null}?${club.clubName}"/></td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">负责人：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<td><input type="text" name="clubHeader" th:value="${club!=null}?${club.clubHeader}"/></td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">创建时间：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<!-- <td><input type="date" name="creatime" style="width: 169px;" placeholder="" th:value="${club!=null}?${club.creatime}"/></td> -->
+				<td><input type="text" style="width: 169px;" placeholder="" th:value="${club!=null}?${#dates.format(club.creatime, 'yyyy-MM-dd')}"/></td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">俱乐部类型：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<td>
+					<select name="clubType.clubType" style="width: 170px;">
+						<option
+							th:selected="${club!=null}?${clubType.clubType == club.clubType.clubType}"
+							th:value="${clubType.clubType}" th:each="clubType:${clubTypes}"
+							th:text="${clubType.clubTypeName}">1</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">活动次数：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<td><input type="text" name="activeNumber" th:value="${club!=null}?${club.activeNumber}"/></td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">会员数量：</td>
+				<td style="width: 3px;color: red;">*</td>
+				<td><input type="text" name="membersNumber" th:value="${club!=null}?${club.membersNumber}"/></td>
+			</tr>
+			<tr>
+				<td style="width: 100px;" align="right">备注：</td>
+				<td style="width: 3px;color: red;"> </td>
+				<td><textarea rows="3" cols="3" name="clubComments" style="width: 167px;" th:value="${club!=null}?${club.clubComments}"></textarea></td>
+			</tr>
+		</table>
+		<button type="button" style="background-color: #00d0ff">取消</button>
+		<button type="submit" th:text="${club!=null}?'修改':'保存'" style="background-color: #00d0ff">保存</button>
+		
+	</form>
+</fieldset>
+	<script type="text/javascript"
+		src="asserts/js/jquery-3.2.1.slim.min.js"
+		th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+	<script type="text/javascript" src="asserts/js/popper.min.js"
+		th:src="@{/webjars/popper.js/1.11.1/dist/popper.js}"></script>
+	<script type="text/javascript" src="asserts/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.js}"></script>
+
+	<!-- Icons -->
+	<script type="text/javascript" src="asserts/js/feather.min.js"
+		th:src="@{/asserts/js/feather.min.js}"></script>
+	<script>
+			feather.replace()
+		</script>
+
+</body>
+
+</html>
